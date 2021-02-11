@@ -1,0 +1,24 @@
+#IncludeRegexLine: ^[ 	]*[#%][ 	]*(include|import)[ 	]*[<"]([^">]+)([">])
+
+#IncludeRegexScan: ^.*$
+
+#IncludeRegexComplain: ^$
+
+#IncludeRegexTransform: 
+
+/home/omar/desktop/filefender/client.cpp
+iostream
+-
+boost/asio.hpp
+-
+fstream
+-
+array
+-
+vector
+-
+iterator
+-
+algorithm
+-
+

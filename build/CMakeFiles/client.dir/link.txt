@@ -1,0 +1,1 @@
+/usr/bin/c++ CMakeFiles/client.dir/client.cpp.o -o client  /usr/lib/libboost_filesystem.so.1.75.0 /usr/lib/libboost_thread.so.1.75.0 -lpthread 
