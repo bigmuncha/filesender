@@ -8,6 +8,7 @@
 using boost::asio::ip::tcp;
 int main(int argc, char *argv[]) {
 
+    try{
     boost::asio::io_context io_context;
     tcp::socket socket(io_context);
     tcp::resolver resolver(io_context);
@@ -34,7 +35,7 @@ int main(int argc, char *argv[]) {
             buffer(std::istreambuf_iterator<char>(file), {});
         std::cout <<"You chose file " <<path <<'\n'
                   <<"Try send him on your friend\n"
-                  <<"...............................";
+                  <<"...............................\n";
 
         int size = buffer.size();
         char buf[1024];
@@ -54,8 +55,39 @@ int main(int argc, char *argv[]) {
         socket.send(boost::asio::buffer(buf));
 */
         socket.send(boost::asio::buffer(buffer));
+        std::cout <<"SEND SUCCESS FINISHED\n";
+
     }else if(took == 2){
         std::cout << "recv\n";
+        char buf[1024];
+        std::memset(buf, 0, 1024);
+        int len;
+        std::ofstream recvfile;
+        recvfile.open("recvfile.mp4",std::ios::binary);
+        if(!recvfile.is_open()){
+            std::cerr <<"Open";
+            return 1;
+        }
+        boost::system::error_code err;
+
+        while (true){
+
+            len = socket.read_some(boost::asio::buffer(buf,1024), err);
+            if (len == 0){
+                break;
+            }
+            std::cout <<"recv" << len <<" byte\n";
+            //total+=len;
+            std::copy(&buf[0],&buf[len],
+                      std::ostreambuf_iterator<char>(recvfile));
+            std::memset(buf, 0, 1024);
+
+        }
+
+
+    }
+    }catch(std::exception & e){
+        std::cerr <<"EXception " << e.what() <<std::endl;
     }
     return 0;
 }

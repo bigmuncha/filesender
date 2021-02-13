@@ -15,7 +15,7 @@ int main(int argc, char *argv[]) {
     tcp::acceptor acceptor(io_context, tcp::endpoint(tcp::v4(), 9000));
 
     first_client = acceptor.accept();
-    //second_client = acceptor.accept();
+    second_client = acceptor.accept();
 
     std::cout <<"accept\n";
     char first_buf[1024];
@@ -25,8 +25,8 @@ int main(int argc, char *argv[]) {
     std::cout <<sizeof(first_buf) << '\n';
     std::string res;
     //first_client.read_some(boost::asio::buffer(res));
-    std::ofstream igor;
-    igor.open("recvfile.jpg",std::ios::binary);
+    //std::ofstream igor;
+    //igor.open("recvfile.mp4",std::ios::binary);
     int len;
 
     int total= 0;
@@ -35,10 +35,10 @@ int main(int argc, char *argv[]) {
         if (len == 0){
             break;
         }
-        std::cout <<"write " << len <<" byte and total =  " << (total= total +len) <<'\n';
+        std::cout <<"write " << len <<" byte and total =  "
+                  << (total= total +len) <<'\n';
         //total+=len;
-        std::copy(&first_buf[0],&first_buf[len],
-                  std::ostreambuf_iterator<char>(igor));
+        second_client.write_some(boost::asio::buffer(first_buf,len));
         std::memset(first_buf, 0, 1024);
         //igor.write(first_buf, sizeof first_buf);
         //std::cout <<"write\n";
