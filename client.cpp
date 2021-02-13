@@ -36,20 +36,24 @@ int main(int argc, char *argv[]) {
                   <<"Try send him on your friend\n"
                   <<"...............................";
 
+        int size = buffer.size();
         char buf[1024];
+        std::cout <<size <<'\n';
+/*
         std::memset(buf,0,1024);
         int index =0;
-        for(auto it = buffer.begin();it != buffer.end();index++,it++){
-            if(index>=1024){
+        for(int i=0,j=0; i < buffer.size() ;j++, i++){
+            buf[j] = buffer[i];
+            if( j == 1024 ){
+                std::cout <<"write\n";
                 socket.send(boost::asio::buffer(buf));
-                index = -1;
-                std::memset(buf, 0, 1024);
-            } else{
-                buf[index] = *it;
+                std::memset(buf,0,1024);
+                j=-1;
             }
         }
         socket.send(boost::asio::buffer(buf));
-
+*/
+        socket.send(boost::asio::buffer(buffer));
     }else if(took == 2){
         std::cout << "recv\n";
     }
